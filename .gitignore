@@ -1,8 +1,7 @@
 node_modules/
 compiled/
 coverage/
+dist/
 *.tsbuildinfo
 lerna-debug.log
 .npmrc
-
-# dist/
