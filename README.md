@@ -7,9 +7,21 @@ It has been adapted to work specifically for Developer-centric game called [Scre
 It should work "auto-magically". If that is not the case, pass in the game instance like so:
 
 ```
-const cache = new LRUCache({
+const cache = new ScreepsCache({
   gameInstance: mockedGameIntance
 });
+```
+
+## Disclaimer:
+
+Note that rollup (used in "Screeps Typescript Starter") has trouble with non-default imports.
+
+```typescript
+// Default imports are recommended if you use rollup
+import ScreepsCache from 'screeps-lru-cache';
+
+// Create a cache. Optional options object can be passed in.
+const cache = new ScreepsCache<string, string>();
 ```
 
 ## Description:
@@ -30,6 +42,7 @@ This library was written in Typescript so type definitions are included out of t
 ## Usage:
 
 ```typescript
+// Import de-structured
 import { LRUCache } from 'screeps-lru-cache';
 
 // Create a cache. Optional options object can be passed in.

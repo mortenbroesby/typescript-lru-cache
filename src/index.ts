@@ -2,8 +2,6 @@ export * from './LRUCache';
 
 import { LRUCache } from './LRUCache';
 
-const Cache = {
-  LRUCache
-};
+const ScreepsCache = LRUCache;
 
-export default Cache;
+export default ScreepsCache;
