@@ -1,5 +1,6 @@
 *
 !src/**/*
 !dist/**/*
+!esm/**/*
 src/__tests__
 src/benchmark
