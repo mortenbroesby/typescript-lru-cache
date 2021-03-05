@@ -18,7 +18,8 @@
   },
   "scripts": {
     "benchmark": "ts-node ./src/benchmark/index.ts",
-    "build": "rm -rf ./dist && tsc",
+    "prebuild": "rm -rf ./dist",
+    "build": "tsc --moduleResolution node --module commonjs --target es5 --allowJs --outDir ./dist ./src/index",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "prettier": "prettier --write **/*.{ts,js,css,html,json} !**/node_modules/** !**/dist/** !**/coverage/** !**/compiled/**",
