@@ -14,6 +14,11 @@
     "typescript",
     "screeps"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mortenbroesby/screeps-lru-cache.git"
+  },
+  "homepage": "https://github.com/mortenbroesby/screeps-lru-cache#readme",
   "publishConfig": {
     "access": "public"
   },

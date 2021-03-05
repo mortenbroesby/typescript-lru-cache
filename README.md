@@ -4,13 +4,8 @@ This is a simple LRU cache implementation written in Typescript.
 It has been adapted to work specifically for Developer-centric game called [Screeps](https://screeps.com/).
 
 ## Note:
-It should work "auto-magically". If that is not the case, pass in the game instance like so:
+It should use `Game.time` "auto-magically". If that is not the case, please let me know.
 
-```
-const cache = new ScreepsCache({
-  gameInstance: mockedGameIntance
-});
-```
 
 ## Disclaimer:
 
