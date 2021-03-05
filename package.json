@@ -1,6 +1,6 @@
 {
   "name": "screeps-lru-cache",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "Screeps LRU Cache",
   "author": "Morten Broesby-Olsen",
   "originalAuthor": "Robert Herber",
