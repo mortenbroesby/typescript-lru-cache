@@ -19,7 +19,7 @@ This library was written in Typescript so type definitions are included out of t
 ## Usage:
 
 ```typescript
-import { LRUCache } from 'typescript-lru-cache';
+import { LRUCache } from 'screeps-lru-cache';
 
 // Create a cache. Optional options object can be passed in.
 const cache = new LRUCache<string, string>();
