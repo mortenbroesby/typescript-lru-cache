@@ -1,13 +1,15 @@
-# typescript-lru-cache
+# screeps-lru-cache
 
 This is a simple LRU cache implementation written in Typescript.
+It has been adapted to work specifically for Developer-centric game called [Screeps](https://screeps.com/).
+
 An LRU cache will evict the least recently used item to make room for new items.
 Useful for when a cache size should be limited but the most used items should be kept.
 
 ## Installation:
 
 ```typescript
-npm i typescript-lru-cache
+npm i screeps-lru-cache
 ```
 
 ## Why use this LRU Cache?
@@ -39,7 +41,7 @@ Pass in an optional options object into the constructor of the LRU cache.
 The options object has the following properties:
 
 - `maxSize` The max number of items the cache can hold. Once the cache reaches this number, the least recently used entries will start to be evicted to make room for new entries. Defaults to 25.
-- `entryExpirationTimeInMS` The time to live for cache entries. Setting this to `null` will make entries never expire. Default value is `null`.
+- `entryExpirationTimeInTicks` The time to live for cache entries. Setting this to `null` will make entries never expire. Default value is `null`.
 - `onEntryEvicted` Function to be called whenever an entry is evicted from the cache (when evicted due to needing to make room, is expired, or deleted using delete()). Passed arguments are (key, value, isExpired)
 - `onEntryMarkedAsMostRecentlyUsed` Function to be called whenever an entry is marked as recently used (on set, get, find, etc). Passed arguments are (key, value)
 
@@ -49,18 +51,18 @@ Pass in an optional options object as the third argument of the `set` method to 
 
 The options object has the following properties:
 
-- `entryExpirationTimeInMS` The time to live for the entry. Setting this to `null` will make the entry never expire.
+- `entryExpirationTimeInTicks` The time to live for the entry. Setting this to `null` will make the entry never expire.
 - `onEntryEvicted` Function to be called whenever an entry is evicted from the cache (when evicted due to needing to make room, is expired, or deleted using delete()). Passed arguments are (key, value, isExpired)
 - `onEntryMarkedAsMostRecentlyUsed` Function to be called whenever an entry is marked as recently used (on set, get, find, etc). Passed arguments are (key, value)
 
 Example:
 
 ```typescript
-// Cache defaults to 1000ms TTL for cache entries
-const cache = new LRUCache({ entryExpirationTimeInMS: 1000 });
+// Cache defaults to 1000 ticks TTL for cache entries
+const cache = new LRUCache({ entryExpirationTimeInTicks: 1000 });
 
-// For this entry, TTL will be 10000ms (overriding the cache config of 1000ms).
-cache.set('key', 'value', { entryExpirationTimeInMS: 10000 });
+// For this entry, TTL will be 10000 ticks (overriding the cache config of 1000 ticks).
+cache.set('key', 'value', { entryExpirationTimeInTicks: 10000 });
 ```
 
 ## API
@@ -74,7 +76,7 @@ const cache = new LRUCache();
 cache.set('testKey', 'testValue');
 
 // Set the key key2 to value value2. Pass in optional options.
-cache.set('key2', 'value2', { entryExpirationTimeInMS: 10 });
+cache.set('key2', 'value2', { entryExpirationTimeInTicks: 10 });
 ```
 
 - `get(key)` Returns the value associated to the key, or null if there is none or if the entry is expired. If an entry is returned, this marks the returned entry as the most recently used entry.

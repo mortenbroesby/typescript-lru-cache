@@ -12,29 +12,29 @@ describe('LRUCacheNode', () => {
       expect(node.key).toEqual(key);
       expect(node.value).toEqual(value);
       expect(typeof node.created).toBe('number');
-      expect(node.entryExpirationTimeInMS).toBeNull();
+      expect(node.entryExpirationTimeInTicks).toBeNull();
       expect(node.next).toBeNull();
       expect(node.prev).toBeNull();
     });
 
-    it('should set null for entryExpirationTimeInMS', () => {
+    it('should set null for entryExpirationTimeInTicks', () => {
       const node1 = new LRUCacheNode('key', 'value');
 
-      expect(node1.entryExpirationTimeInMS).toBeNull();
+      expect(node1.entryExpirationTimeInTicks).toBeNull();
 
-      const node2 = new LRUCacheNode('key', 'value', { entryExpirationTimeInMS: null });
+      const node2 = new LRUCacheNode('key', 'value', { entryExpirationTimeInTicks: null });
 
-      expect(node2.entryExpirationTimeInMS).toBeNull();
+      expect(node2.entryExpirationTimeInTicks).toBeNull();
     });
 
-    it.each([0.1, 1, 1099387, Number.MAX_VALUE])('should set the passed number for entryExpirationTimeInMS', num => {
-      const node = new LRUCacheNode('key', 'value', { entryExpirationTimeInMS: num });
+    it.each([0.1, 1, 1099387, Number.MAX_VALUE])('should set the passed number for entryExpirationTimeInTicks', num => {
+      const node = new LRUCacheNode('key', 'value', { entryExpirationTimeInTicks: num });
 
-      expect(node.entryExpirationTimeInMS).toBe(num);
+      expect(node.entryExpirationTimeInTicks).toBe(num);
     });
 
-    it.each([0, -1, -1099387, NaN])('should throw for invalid entryExpirationTimeInMS', num => {
-      expect(() => new LRUCacheNode('key', 'value', { entryExpirationTimeInMS: num })).toThrow();
+    it.each([0, -1, -1099387, NaN])('should throw for invalid entryExpirationTimeInTicks', num => {
+      expect(() => new LRUCacheNode('key', 'value', { entryExpirationTimeInTicks: num })).toThrow();
     });
 
     it('should set the passed in next node as next', () => {
@@ -53,7 +53,7 @@ describe('LRUCacheNode', () => {
   });
 
   describe('isExpired', () => {
-    it('should not be expired due to null entryExpirationTimeInMS (no expiration)', () => {
+    it('should not be expired due to null entryExpirationTimeInTicks (no expiration)', () => {
       const node = new LRUCacheNode('key', 'value');
 
       expect(node.isExpired).toBe(false);
@@ -62,24 +62,24 @@ describe('LRUCacheNode', () => {
       (node as any).created = 0;
 
       expect(node.isExpired).toBe(false);
-      expect(node.entryExpirationTimeInMS).toBeNull();
+      expect(node.entryExpirationTimeInTicks).toBeNull();
     });
 
     it('should not be expired', () => {
-      const node = new LRUCacheNode('key', 'value', { entryExpirationTimeInMS: 10000 });
+      const node = new LRUCacheNode('key', 'value', { entryExpirationTimeInTicks: 10000 });
 
       expect(node.isExpired).toBe(false);
-      expect(node.entryExpirationTimeInMS).not.toBeNull();
+      expect(node.entryExpirationTimeInTicks).not.toBeNull();
     });
 
     it('should be expired', () => {
-      const node = new LRUCacheNode('key', 'value', { entryExpirationTimeInMS: 10000 });
+      const node = new LRUCacheNode('key', 'value', { entryExpirationTimeInTicks: 10000 });
 
       // Force created to be less than now
       (node as any).created = 0;
 
       expect(node.isExpired).toBe(true);
-      expect(node.entryExpirationTimeInMS).not.toBeNull();
+      expect(node.entryExpirationTimeInTicks).not.toBeNull();
     });
   });
 

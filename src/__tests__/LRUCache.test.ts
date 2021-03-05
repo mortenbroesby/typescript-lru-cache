@@ -47,10 +47,10 @@ describe('LRUCache', () => {
       expect(cache.maxSize).toBe(25);
     });
 
-    it('should set entryExpirationTimeInMS to null by default', () => {
+    it('should set entryExpirationTimeInTicks to null by default', () => {
       const cache = new LRUCache();
 
-      expect((cache as any).entryExpirationTimeInMS).toBeNull();
+      expect((cache as any).entryExpirationTimeInTicks).toBeNull();
     });
 
     it('should accept a configuration object', () => {
@@ -65,9 +65,9 @@ describe('LRUCache', () => {
     });
 
     it.each([-1, 0, NaN, -12342])(
-      'should throw when passed an invalid entryExpirationTimeInMS',
-      entryExpirationTimeInMS => {
-        expect(() => new LRUCache({ entryExpirationTimeInMS })).toThrow();
+      'should throw when passed an invalid entryExpirationTimeInTicks',
+      entryExpirationTimeInTicks => {
+        expect(() => new LRUCache({ entryExpirationTimeInTicks })).toThrow();
       }
     );
   });
@@ -583,13 +583,13 @@ describe('LRUCache', () => {
     });
 
     it.each([10, null])('should set the cache exp time for node exp time', cacheExpTime => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: cacheExpTime });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: cacheExpTime });
 
       cache.set('key', 'value');
 
       const node = (cache as any).head;
 
-      expect(node.entryExpirationTimeInMS).toBe(cacheExpTime);
+      expect(node.entryExpirationTimeInTicks).toBe(cacheExpTime);
     });
 
     it.each([
@@ -598,13 +598,13 @@ describe('LRUCache', () => {
       { cacheExpTime: 10, entryExpTime: 123 },
       { cacheExpTime: null, entryExpTime: null }
     ])('should override the cache level exp time with the passed in time', ({ entryExpTime, cacheExpTime }) => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: cacheExpTime });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: cacheExpTime });
 
-      cache.set('key', 'value', { entryExpirationTimeInMS: entryExpTime });
+      cache.set('key', 'value', { entryExpirationTimeInTicks: entryExpTime });
 
       const node = (cache as any).head;
 
-      expect(node.entryExpirationTimeInMS).toBe(entryExpTime);
+      expect(node.entryExpirationTimeInTicks).toBe(entryExpTime);
     });
 
     it.each([{ foo: 'bar' }, NaN, null, false, true, 3.14, 42, -100, Infinity, undefined, 'key'])(
@@ -667,7 +667,7 @@ describe('LRUCache', () => {
     });
 
     it('should return null for expired item', () => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: 10000 });
       const key = 'test-key';
 
       cache.set(key, 'value');
@@ -681,7 +681,7 @@ describe('LRUCache', () => {
     });
 
     it('should purge expired item', () => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: 10000 });
       const key = 'test-key';
 
       cache.set(key, 'value');
@@ -768,7 +768,7 @@ describe('LRUCache', () => {
     });
 
     it('should return null for expired item', () => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: 10000 });
       const key = 'test-key';
 
       cache.set(key, 'value');
@@ -782,7 +782,7 @@ describe('LRUCache', () => {
     });
 
     it('should purge expired item', () => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: 10000 });
       const key = 'test-key';
 
       cache.set(key, 'value');
@@ -911,7 +911,7 @@ describe('LRUCache', () => {
     });
 
     it('should return null for matched entry being expired', () => {
-      const cache = new LRUCache<string, string>({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache<string, string>({ entryExpirationTimeInTicks: 10000 });
       cache.set('key1', 'some value1');
       cache.set('key2', 'value2');
 
@@ -930,7 +930,7 @@ describe('LRUCache', () => {
     });
 
     it('should return first non-expired result and prune expired items', () => {
-      const cache = new LRUCache<string, string>({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache<string, string>({ entryExpirationTimeInTicks: 10000 });
       cache.set('key1', 'some value2');
       cache.set('key2', 'value2');
 
@@ -999,7 +999,7 @@ describe('LRUCache', () => {
     });
 
     it('should remove and not iterate over expired entry', () => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: 10000 });
 
       cache.set('1', 1);
       cache.set('2', 2);
@@ -1092,7 +1092,7 @@ describe('LRUCache', () => {
     });
 
     it('should remove and not iterate over expired entry', () => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: 10000 });
 
       cache.set('1', 1);
       cache.set('2', 2);
@@ -1163,7 +1163,7 @@ describe('LRUCache', () => {
     });
 
     it('should remove and not iterate over expired entry', () => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: 10000 });
 
       cache.set('1', 1);
       cache.set('2', 2);
@@ -1234,7 +1234,7 @@ describe('LRUCache', () => {
     });
 
     it('should remove and not iterate over expired entry', () => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: 10000 });
 
       cache.set('1', 1);
       cache.set('2', 2);
@@ -1305,7 +1305,7 @@ describe('LRUCache', () => {
     });
 
     it('should remove and not iterate over expired entry', () => {
-      const cache = new LRUCache({ entryExpirationTimeInMS: 10000 });
+      const cache = new LRUCache({ entryExpirationTimeInTicks: 10000 });
 
       cache.set('1', 1);
       cache.set('2', 2);

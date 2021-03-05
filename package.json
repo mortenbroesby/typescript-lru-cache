@@ -1,24 +1,18 @@
 {
-  "name": "typescript-lru-cache",
-  "version": "1.1.1",
-  "description": "LRU Cache",
-  "author": "Robert Herber",
+  "name": "screeps-lru-cache",
+  "version": "1.0.0",
+  "description": "Screeps LRU Cache",
+  "author": "Morten Broesby-Olsen",
+  "originalAuthor": "Robert Herber",
   "license": "MIT",
   "main": "dist/index",
   "types": "dist/index",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rob893/typescript-lru-cache.git"
-  },
   "keywords": [
     "cache",
     "lru",
-    "typescript"
+    "typescript",
+    "screeps"
   ],
-  "bugs": {
-    "url": "https://github.com/rob893/typescript-lru-cache/issues"
-  },
-  "homepage": "https://github.com/rob893/typescript-lru-cache#readme",
   "publishConfig": {
     "access": "public"
   },
@@ -39,6 +33,7 @@
     "@commitlint/config-conventional": "^11.0.0",
     "@types/benchmark": "^2.1.0",
     "@types/jest": "^26.0.20",
+    "@types/screeps": "^3.1.0",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",
     "benchmark": "^2.1.4",
@@ -51,6 +46,7 @@
     "np": "^7.2.0",
     "prettier": "^2.2.1",
     "ts-jest": "^26.4.4",
+    "screeps-jest": "eduter/screeps-jest#1.2.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   }

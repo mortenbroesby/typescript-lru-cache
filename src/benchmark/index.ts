@@ -33,7 +33,7 @@ const lru3 = new LRUCache({
 let lru3Counter = 0;
 
 suite.add('set with `maxAge`', function () {
-  lru3.set(`key${lru3Counter++}`, 'value', { entryExpirationTimeInMS: 100000 });
+  lru3.set(`key${lru3Counter++}`, 'value', { entryExpirationTimeInTicks: 100000 });
 });
 
 suite
