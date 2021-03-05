@@ -1,4 +1,5 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
@@ -18,17 +19,18 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "strict": true,
+    "allowUnreachableCode": false,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
   },
   "include": [
-    "./**/*.ts",
-    "./**/*.d.ts"
+    "./src/**/*.ts",
+    "./src/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",
     "**/__tests__",
     "**/__mocks__",
     "**/benchmark"
-  ],
-  "compileOnSave": false,
-  "buildOnSave": false
+  ]
 }
