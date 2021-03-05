@@ -12,18 +12,23 @@ export interface LRUCacheNodeOptions<TKey, TValue> {
         key: TKey;
         value: TValue;
     }) => void;
+    gameInstance?: Game;
 }
 export declare class LRUCacheNode<TKey, TValue> {
     readonly key: TKey;
     readonly value: TValue;
     readonly created: number;
-    readonly Game: Game;
     readonly entryExpirationTimeInTicks: number | null;
     next: LRUCacheNode<TKey, TValue> | null;
     prev: LRUCacheNode<TKey, TValue> | null;
     private readonly onEntryEvicted?;
     private readonly onEntryMarkedAsMostRecentlyUsed?;
+    private readonly gameInstance;
     constructor(key: TKey, value: TValue, options?: LRUCacheNodeOptions<TKey, TValue>);
+    /**
+     * Returns Game instance.
+     */
+    get Game(): Game;
     get isExpired(): boolean;
     invokeOnEvicted(): void;
     invokeOnEntryMarkedAsMostRecentlyUsed(): void;

@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LRUCache = void 0;
+const Game_1 = require("./Game");
 const LRUCacheNode_1 = require("./LRUCacheNode");
+global.Game = typeof Game !== 'undefined' ? Game : Game_1.fallbackGameInstance();
 class LRUCache {
     /**
      * Creates a new instance of the LRUCache.
@@ -12,7 +14,7 @@ class LRUCache {
         this.lookupTable = new Map();
         this.head = null;
         this.tail = null;
-        const { maxSize = 25, entryExpirationTimeInTicks = null, onEntryEvicted, onEntryMarkedAsMostRecentlyUsed } = options || {};
+        const { maxSize = 25, entryExpirationTimeInTicks = null, onEntryEvicted, onEntryMarkedAsMostRecentlyUsed, gameInstance } = options || {};
         if (Number.isNaN(maxSize) || maxSize <= 0) {
             throw new Error('maxSize must be greater than 0.');
         }
@@ -20,6 +22,7 @@ class LRUCache {
             (entryExpirationTimeInTicks <= 0 || Number.isNaN(entryExpirationTimeInTicks))) {
             throw new Error('entryExpirationTimeInTicks must either be null (no expiry) or greater than 0');
         }
+        this.gameInstance = gameInstance !== null && gameInstance !== void 0 ? gameInstance : Game;
         this.maxSizeInternal = maxSize;
         this.entryExpirationTimeInTicks = entryExpirationTimeInTicks;
         this.onEntryEvicted = onEntryEvicted;
@@ -40,6 +43,12 @@ class LRUCache {
      */
     get remainingSize() {
         return this.maxSizeInternal - this.size;
+    }
+    /**
+     * Returns Game instance.
+     */
+    get Game() {
+        return this.gameInstance;
     }
     /**
      * Returns the most recently used (newest) entry in the cache.
@@ -106,6 +115,7 @@ class LRUCache {
             entryExpirationTimeInTicks: this.entryExpirationTimeInTicks,
             onEntryEvicted: this.onEntryEvicted,
             onEntryMarkedAsMostRecentlyUsed: this.onEntryMarkedAsMostRecentlyUsed,
+            gameInstance: this.gameInstance,
             ...entryOptions
         });
         this.setNodeAsHead(node);

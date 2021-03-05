@@ -1,4 +1,6 @@
-import { GameObject } from './Game';
+import { fallbackGameInstance } from './Game';
+
+global.Game = typeof Game !== 'undefined' ? Game : fallbackGameInstance();
 
 export interface LRUCacheNodeOptions<TKey, TValue> {
   next?: LRUCacheNode<TKey, TValue> | null;
@@ -6,6 +8,7 @@ export interface LRUCacheNodeOptions<TKey, TValue> {
   entryExpirationTimeInTicks?: number | null;
   onEntryEvicted?: (evictedEntry: { key: TKey; value: TValue; isExpired: boolean }) => void;
   onEntryMarkedAsMostRecentlyUsed?: (entry: { key: TKey; value: TValue }) => void;
+  gameInstance?: Game;
 }
 
 export class LRUCacheNode<TKey, TValue> {
@@ -14,8 +17,6 @@ export class LRUCacheNode<TKey, TValue> {
   public readonly value: TValue;
 
   public readonly created: number;
-
-  public readonly Game: Game = GameObject;
 
   public readonly entryExpirationTimeInTicks: number | null;
 
@@ -27,13 +28,16 @@ export class LRUCacheNode<TKey, TValue> {
 
   private readonly onEntryMarkedAsMostRecentlyUsed?: (entry: { key: TKey; value: TValue }) => void;
 
+  private readonly gameInstance: Game;
+
   public constructor(key: TKey, value: TValue, options?: LRUCacheNodeOptions<TKey, TValue>) {
     const {
       entryExpirationTimeInTicks = null,
       next = null,
       prev = null,
       onEntryEvicted,
-      onEntryMarkedAsMostRecentlyUsed
+      onEntryMarkedAsMostRecentlyUsed,
+      gameInstance
     } = options || {};
 
     if (
@@ -43,14 +47,24 @@ export class LRUCacheNode<TKey, TValue> {
       throw new Error('entryExpirationTimeInTicks must either be null (no expiry) or greater than 0');
     }
 
+    this.gameInstance = gameInstance ?? Game;
+
     this.key = key;
     this.value = value;
-    this.created = Date.now();
+    this.created = this.gameInstance.time;
     this.entryExpirationTimeInTicks = entryExpirationTimeInTicks;
     this.next = next;
     this.prev = prev;
+
     this.onEntryEvicted = onEntryEvicted;
     this.onEntryMarkedAsMostRecentlyUsed = onEntryMarkedAsMostRecentlyUsed;
+  }
+
+  /**
+   * Returns Game instance.
+   */
+  public get Game(): Game {
+    return this.gameInstance;
   }
 
   public get isExpired(): boolean {

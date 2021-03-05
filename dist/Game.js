@@ -1,8 +1,12 @@
 "use strict";
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GameObject = void 0;
-const fallbackGame = () => {
+exports.fallbackGameInstance = void 0;
+/**
+ * Polyfill Screeps game object.
+ *
+ * @returns Game - Game Object with Date.now() fallback.
+ */
+const fallbackGameInstance = () => {
     const gameObject = {};
     Object.defineProperty(gameObject, 'time', {
         get: () => Date.now(),
@@ -14,5 +18,5 @@ const fallbackGame = () => {
     });
     return gameObject;
 };
-exports.GameObject = (_a = global.Game) !== null && _a !== void 0 ? _a : fallbackGame();
+exports.fallbackGameInstance = fallbackGameInstance;
 //# sourceMappingURL=Game.js.map

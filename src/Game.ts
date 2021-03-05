@@ -1,4 +1,9 @@
-const fallbackGame: () => Game = () => {
+/**
+ * Polyfill Screeps game object.
+ *
+ * @returns Game - Game Object with Date.now() fallback.
+ */
+const fallbackGameInstance: () => Game = () => {
   const gameObject = {};
 
   Object.defineProperty(gameObject, 'time', {
@@ -13,4 +18,4 @@ const fallbackGame: () => Game = () => {
   return gameObject as Game;
 };
 
-export const GameObject = global.Game ?? fallbackGame();
+export { fallbackGameInstance };

@@ -1,10 +1,14 @@
+import { fallbackGameInstance } from './Game';
 import { LRUCacheNode } from './LRUCacheNode';
+
+global.Game = typeof Game !== 'undefined' ? Game : fallbackGameInstance();
 
 export interface LRUCacheOptions<TKey, TValue> {
   maxSize?: number;
   entryExpirationTimeInTicks?: number | null;
   onEntryEvicted?: (evictedEntry: { key: TKey; value: TValue; isExpired: boolean }) => void;
   onEntryMarkedAsMostRecentlyUsed?: (entry: { key: TKey; value: TValue }) => void;
+  gameInstance?: Game;
 }
 
 export interface LRUCacheSetEntryOptions<TKey, TValue> {
@@ -33,14 +37,21 @@ export class LRUCache<TKey = string, TValue = any> {
 
   private tail: LRUCacheNode<TKey, TValue> | null = null;
 
+  private readonly gameInstance: Game;
+
   /**
    * Creates a new instance of the LRUCache.
    *
    * @param options Additional configuration options for the LRUCache.
    */
   public constructor(options?: LRUCacheOptions<TKey, TValue>) {
-    const { maxSize = 25, entryExpirationTimeInTicks = null, onEntryEvicted, onEntryMarkedAsMostRecentlyUsed } =
-      options || {};
+    const {
+      maxSize = 25,
+      entryExpirationTimeInTicks = null,
+      onEntryEvicted,
+      onEntryMarkedAsMostRecentlyUsed,
+      gameInstance
+    } = options || {};
 
     if (Number.isNaN(maxSize) || maxSize <= 0) {
       throw new Error('maxSize must be greater than 0.');
@@ -52,6 +63,8 @@ export class LRUCache<TKey = string, TValue = any> {
     ) {
       throw new Error('entryExpirationTimeInTicks must either be null (no expiry) or greater than 0');
     }
+
+    this.gameInstance = gameInstance ?? Game;
 
     this.maxSizeInternal = maxSize;
     this.entryExpirationTimeInTicks = entryExpirationTimeInTicks;
@@ -75,6 +88,13 @@ export class LRUCache<TKey = string, TValue = any> {
    */
   public get remainingSize(): number {
     return this.maxSizeInternal - this.size;
+  }
+
+  /**
+   * Returns Game instance.
+   */
+  public get Game(): Game {
+    return this.gameInstance;
   }
 
   /**
@@ -152,8 +172,10 @@ export class LRUCache<TKey = string, TValue = any> {
       entryExpirationTimeInTicks: this.entryExpirationTimeInTicks,
       onEntryEvicted: this.onEntryEvicted,
       onEntryMarkedAsMostRecentlyUsed: this.onEntryMarkedAsMostRecentlyUsed,
+      gameInstance: this.gameInstance,
       ...entryOptions
     });
+
     this.setNodeAsHead(node);
     this.lookupTable.set(key, node);
 

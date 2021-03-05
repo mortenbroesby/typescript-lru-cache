@@ -1,3 +1,4 @@
+/// <reference types="screeps" />
 export interface LRUCacheOptions<TKey, TValue> {
     maxSize?: number;
     entryExpirationTimeInTicks?: number | null;
@@ -10,6 +11,7 @@ export interface LRUCacheOptions<TKey, TValue> {
         key: TKey;
         value: TValue;
     }) => void;
+    gameInstance?: Game;
 }
 export interface LRUCacheSetEntryOptions<TKey, TValue> {
     entryExpirationTimeInTicks?: number | null;
@@ -35,6 +37,7 @@ export declare class LRUCache<TKey = string, TValue = any> {
     private maxSizeInternal;
     private head;
     private tail;
+    private readonly gameInstance;
     /**
      * Creates a new instance of the LRUCache.
      *
@@ -53,6 +56,10 @@ export declare class LRUCache<TKey = string, TValue = any> {
      * @returns The number of entries that can still be added without evicting existing entries.
      */
     get remainingSize(): number;
+    /**
+     * Returns Game instance.
+     */
+    get Game(): Game;
     /**
      * Returns the most recently used (newest) entry in the cache.
      * This will not mark the entry as recently used.

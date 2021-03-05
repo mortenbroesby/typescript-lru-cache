@@ -1,3 +1,9 @@
 /// <reference types="screeps" />
-export declare const GameObject: Game;
+/**
+ * Polyfill Screeps game object.
+ *
+ * @returns Game - Game Object with Date.now() fallback.
+ */
+declare const fallbackGameInstance: () => Game;
+export { fallbackGameInstance };
 //# sourceMappingURL=Game.d.ts.map
