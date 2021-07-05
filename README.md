@@ -1,6 +1,9 @@
 # screeps-lru-cache
 
 This is a simple LRU cache implementation written in Typescript.
+
+An LRU cache will evict the least recently used item to make room for new items. Useful for when a cache size should be limited but the most used items should be kept.
+
 It has been adapted to work specifically for Developer-centric game called [Screeps](https://screeps.com/).
 
 ## Note:
